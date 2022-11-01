@@ -1,0 +1,11 @@
+.wrapper {
+	@apply flex flex-col h-screen bg-light-primary dark:bg-dark-primary;
+}
+
+.main {
+	@apply flex h-screen bg-light-secondary dark:bg-dark-secondary;
+}
+
+.filesWindow {
+	@apply w-full mx-2 mb-2 p-2 rounded-xl bg-light-primary dark:bg-dark-primary;
+}

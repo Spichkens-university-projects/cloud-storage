@@ -1,0 +1,11 @@
+.wrapper {
+	@apply flex flex-col h-screen;
+}
+
+.container {
+	@apply flex flex-col h-screen items-center justify-center;
+}
+
+.form {
+	@apply min-w-fit flex flex-col gap-5 bg-light-primary dark:bg-dark-primary pt-16 pb-12 px-12 rounded-xl shadow-xl;
+}

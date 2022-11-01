@@ -1,0 +1,15 @@
+.header {
+	@apply sticky flex items-center bg-light-secondary dark:bg-dark-secondary py-2;
+}
+
+.content {
+	@apply container flex justify-between items-center;
+}
+
+.logo {
+	@apply text-icon font-bold text-2xl;
+}
+
+.signButton {
+	@apply border-2 border-icon rounded-md px-1.5 text-xl;
+}

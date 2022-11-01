@@ -1,0 +1,15 @@
+.container {
+	@apply h-fit rounded-lg overflow-hidden border-2;
+
+	.input {
+		@apply py-2 w-full p-2;
+	}
+}
+
+.focused {
+	@apply border-blue-500 outline-none;
+}
+
+.blured {
+	@apply border-black outline-none;
+}
