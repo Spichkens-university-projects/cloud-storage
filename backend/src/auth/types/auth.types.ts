@@ -1,10 +1,11 @@
-import { IUser } from "../../users/types/user.interface";
+import { IUser } from '../../users/types/user.interface'
 
 export interface AuthResponse {
-  user: IUser,
-  tokens: {
-    access: string,
-    refresh: string
-  }
+  user: IUser
+  accessToken: string
+}
 
+export interface AuthUserDto {
+  email: string
+  password: string
 }
