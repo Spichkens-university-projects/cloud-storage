@@ -1,5 +1,10 @@
-import Home from "../components/pages/home/Home";
+import Home from "../app/components/pages/home/Home";
+import { PrivateNextPage } from "../app/providers/private-route.interface";
 
-export default function HomePage() {
+const HomePage: PrivateNextPage = () => {
   return <Home/>
 }
+
+HomePage.isPrivatePage = true
+
+export default HomePage

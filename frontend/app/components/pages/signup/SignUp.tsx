@@ -21,7 +21,7 @@ const SignUp: FC<PropsWithChildren<Props>> = ({ children }) => {
 		<div className={styles.wrapper}>
 			<Header />
 			<div className={styles.container}>
-				<h1 className='text-3xl text-center mb-5'>Вход в хранилище</h1>
+				<h1 className='text-3xl text-center mb-5'>Создать хранилище</h1>
 				<form
 					onSubmit={handleSubmit(() => console.log(123))}
 					className={styles.form}

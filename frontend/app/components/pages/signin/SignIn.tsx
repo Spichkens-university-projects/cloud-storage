@@ -1,4 +1,7 @@
+import { useRouter } from "next/router";
 import { FC, PropsWithChildren } from 'react'
+import { useActions } from "../../../hooks/useActions";
+import { IAuthLoginFields } from "../../../types/auth/auth.interface";
 import Header from '../../layout/header/Header'
 import Input from '../../ui/input/Input'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -15,13 +18,27 @@ const SignIn: FC<PropsWithChildren<Props>> = ({ children }) => {
 		password: string
 	}>()
 
+	const {signIn} = useActions()
+
+	const {replace} = useRouter()
+
+	const onSubmit: SubmitHandler<IAuthLoginFields> = data => {
+		try {
+			signIn(data)
+			replace('/')
+		} catch (e)
+		{
+			console.log(e)
+		}
+	}
+
 	return (
 		<div className={styles.wrapper}>
 			<Header />
 			<div className={styles.container}>
 				<h1 className='text-3xl text-center mb-5'>Вход в хранилище</h1>
 				<form
-					onSubmit={handleSubmit(() => console.log(123))}
+					onSubmit={handleSubmit(onSubmit)}
 					className={styles.form}
 				>
 					<Input

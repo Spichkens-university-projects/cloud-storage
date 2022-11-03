@@ -1,11 +1,7 @@
 import { FC, PropsWithChildren } from "react";
-import SignUp from "../../components/pages/signup/SignUp";
+import SignUp from "../../app/components/pages/signup/SignUp";
 
-interface Props {
-
-}
-
-const SignUpPage: FC<PropsWithChildren<Props>> = ({ children }) => {
+const SignUpPage: FC<PropsWithChildren> = ({ children }) => {
   return (
     <SignUp/>
   );
