@@ -13,11 +13,7 @@ const CheckAuth: FC<PropsWithChildren<TypeComponentAuthFields>> = ({ children, C
   if (user) return <Children/>
   if (isPrivatePage) pathname !== '/signin' && replace('/signin')
 
-  return (
-    <div>
-      CheckAuth
-    </div>
-  );
+  return null
 };
 
 export default CheckAuth;

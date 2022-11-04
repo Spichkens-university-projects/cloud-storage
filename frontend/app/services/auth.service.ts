@@ -11,7 +11,7 @@ export const AuthService = {
   },
 
   async register({email, password, name, surname}: IAuthRegisterFields) {
-    const response = await axiosClassic.post<IAuthResponse>('/auth/signun', {
+    const response = await axiosClassic.post<IAuthResponse>('/auth/signup', {
       email, password, name, surname
     })
     return response.data

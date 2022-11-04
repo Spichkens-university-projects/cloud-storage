@@ -1,11 +1,21 @@
-import storage from "redux-persist/lib/storage"
+import storageSession from 'redux-persist/lib/storage/session'
 import { configureStore } from "@reduxjs/toolkit";
 import { RootReducer } from "./root-reducer";
-import {persistReducer, FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE, persistStore} from 'redux-persist'
+import {
+  persistReducer,
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
+  persistStore,
+} from "redux-persist";
+
 
 const PersistConfig = {
   key: 'root',
-  storage,
+  storage: storageSession,
   whitelist: ['auth']
 }
 
@@ -20,6 +30,7 @@ export const store = configureStore({
   })
 })
 
-export const persistor = persistStore(store)
+
+export const persistor = persistStore(store, {})
 
 export type TypeRootState = ReturnType<typeof RootReducer>

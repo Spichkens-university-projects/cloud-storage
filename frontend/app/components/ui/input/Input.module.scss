@@ -1,15 +1,15 @@
 .container {
-	@apply h-fit rounded-lg overflow-hidden border-2;
+	@apply h-fit rounded-lg overflow-hidden border-2 border-black outline-none;
 
 	.input {
-		@apply py-2 w-full p-2;
+		@apply border-black py-2 w-full p-2 outline-none;
 	}
 }
 
 .focused {
-	@apply border-blue-500 outline-none;
+	@apply border-blue-500;
 }
 
-.blured {
-	@apply border-black outline-none;
+.error {
+	@apply border-red-700;
 }

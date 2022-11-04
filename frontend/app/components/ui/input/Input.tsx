@@ -2,10 +2,10 @@ import {
 	FC,
 	HTMLInputTypeAttribute,
 	PropsWithChildren,
-	useEffect,
 	useState,
 } from 'react'
 import classNames from 'classnames/bind'
+import { FieldError } from "react-hook-form";
 
 interface Props {
 	placeholder: string
@@ -30,7 +30,6 @@ const Input: FC<PropsWithChildren<Props>> = ({
 		<div
 			className={cn({
 				container: true,
-				blured: !isFocused,
 				focused: isFocused,
 			})}
 		>
@@ -39,10 +38,7 @@ const Input: FC<PropsWithChildren<Props>> = ({
 				onBlurCapture={() => setIsFocused(false)}
 				type={type}
 				placeholder={placeholder}
-				className={cn({
-					input: true,
-					focused: isFocused,
-				})}
+				className={styles.input}
 				{...register(name)}
 			/>
 		</div>
