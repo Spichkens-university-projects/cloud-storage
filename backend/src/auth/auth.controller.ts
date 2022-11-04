@@ -6,42 +6,33 @@ import {
   HttpStatus,
   ValidationPipe,
   UsePipes,
-  Res,
-} from '@nestjs/common'
-import { CreateUserDto } from '../users/dto/create-user.dto'
-import { AuthResponse, AuthUserDto } from './types/auth.types'
-import { AuthService } from './auth.service'
-import { Response } from 'express'
+  Res
+} from "@nestjs/common";
+import { LoginUserDto } from "../users/dto/login-user.dto";
+import { RegisterUserDto } from "../users/dto/register-user.dto";
+import { AuthResponse } from "./types/auth.types";
+import { AuthService } from "./auth.service";
 
-@Controller('auth')
+@Controller("auth")
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
-
-  @HttpCode(HttpStatus.OK)
-  @UsePipes(new ValidationPipe())
-  @Post('signup')
-  async signUp(
-    @Body() createUserDto: CreateUserDto,
-    @Res({ passthrough: true }) response: Response,
-  ): Promise<AuthResponse> {
-    const res = await this.authService.singUp(createUserDto)
-    response.cookie('token', res.accessToken, {
-      expires: new Date(Date.now() + 86400e3),
-    })
-    return res
+  constructor(private readonly authService: AuthService) {
   }
 
-  @HttpCode(HttpStatus.OK)
   @UsePipes(new ValidationPipe())
-  @Post('signin')
-  async signIn(
-    @Body() authUserDto: AuthUserDto,
-    @Res({ passthrough: true }) response: Response,
+  @HttpCode(HttpStatus.OK)
+  @Post("signup")
+  async signUp(
+    @Body() createUserDto: RegisterUserDto
   ): Promise<AuthResponse> {
-    const res = await this.authService.signIn(authUserDto)
-    response.cookie('token', res.accessToken, {
-      expires: new Date(Date.now() + 86400e3),
-    })
-    return res
+    return await this.authService.singUp(createUserDto);
+  }
+
+  @UsePipes(new ValidationPipe())
+  @HttpCode(HttpStatus.OK)
+  @Post("signin")
+  async signIn(
+    @Body() authUserDto: LoginUserDto
+  ): Promise<AuthResponse> {
+    return await this.authService.signIn(authUserDto);
   }
 }

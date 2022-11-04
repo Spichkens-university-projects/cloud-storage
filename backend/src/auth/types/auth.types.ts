@@ -1,11 +1,6 @@
 import { IUser } from '../../users/types/user.interface'
 
 export interface AuthResponse {
-  user: IUser
+  user: Partial<IUser>
   accessToken: string
-}
-
-export interface AuthUserDto {
-  email: string
-  password: string
 }
