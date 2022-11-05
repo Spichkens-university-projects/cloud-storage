@@ -1,13 +1,14 @@
-import { Injectable } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import { PassportStrategy } from "@nestjs/passport";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import {ExtractJwt, Strategy} from 'passport-jwt'
-import { UserEntity } from "../../users/entities/user.entity";
+import {Injectable} from "@nestjs/common";
+import {ConfigService} from "@nestjs/config";
+import {PassportStrategy} from "@nestjs/passport";
+import {InjectRepository} from "@nestjs/typeorm";
+import {Strategy, ExtractJwt} from 'passport-jwt'
+import {Repository} from "typeorm";
+import { UserEntity } from "../../user/entities/user.entity";
+
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy, 'jwt'){
+export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     private readonly configService: ConfigService,
     @InjectRepository(UserEntity)
@@ -16,11 +17,11 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt'){
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: true,
-      secretOrKey: configService.get<string>('JWT_SECRET')
+      secretOrKey: configService.get('JWT_SECRET')
     });
   }
 
   async validate({id}: Pick<UserEntity, 'id'>) {
-    return await this.userRepository.findOneBy({id})
+    return this.userRepository.findBy({id})
   }
 }

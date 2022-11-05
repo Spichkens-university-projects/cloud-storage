@@ -1,4 +1,4 @@
-import { IUser } from '../../users/types/user.interface'
+import { IUser } from '../../user/types/user.interface'
 
 export interface AuthResponse {
   user: Partial<IUser>

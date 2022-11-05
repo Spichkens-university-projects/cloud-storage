@@ -1,96 +1,76 @@
-import { Response } from "express";
-import { LoginUserDto } from "../users/dto/login-user.dto";
-import { IUser } from './../users/types/user.interface'
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common'
-import { ConfigService } from '@nestjs/config'
-import { JwtService } from '@nestjs/jwt'
-import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
-import { RegisterUserDto } from '../users/dto/register-user.dto'
-import { UserEntity } from '../users/entities/user.entity'
-import { AuthResponse } from './types/auth.types'
-import { genSalt, compare, hash } from 'bcryptjs'
+import {BadRequestException, Injectable, NotFoundException, UnauthorizedException} from '@nestjs/common';
+import {JwtService} from "@nestjs/jwt";
+import {InjectRepository} from "@nestjs/typeorm";
+import {Repository} from "typeorm";
+import {compare, hash, genSalt} from "bcryptjs"
+import { UserEntity } from "../user/entities/user.entity";
+import { LoginDto, RegisterDto } from "./dto/auth.dto";
 
 @Injectable()
 export class AuthService {
-  constructor(
-    @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>,
-    private readonly jwtService: JwtService,
-    private readonly configService: ConfigService,
-  ) {}
+  constructor(@InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>, private readonly jwtService: JwtService) {}
 
-  async singUp(createUserDto: RegisterUserDto): Promise<AuthResponse> {
-    const isUserAlreadyExists = await this.userRepository.findOneBy({
-      email: createUserDto.email,
-    })
-    if (isUserAlreadyExists)
-      throw new BadRequestException(
-        'Пользователь с таким email уже зарегистрирован',
-      )
+  async login(dto: LoginDto) {
+    const user = await this.validateUser(dto)
+
+    return {
+      user: this.returnUserFields(user),
+      accessToken: await this.createAccesToken(user.id)
+    }
+  }
+
+  async register(dto: RegisterDto) {
+    const isExist = await this.userRepository.findOneBy({email: dto.email})
+    if(isExist) throw new BadRequestException('Пользователь с таким email уже существует')
 
     const salt = await genSalt(5)
 
     const newUser = await this.userRepository.create({
-      email: createUserDto.email,
-      name: createUserDto.name,
-      surname: createUserDto.surname,
-      password: await hash(createUserDto.password, salt),
+      email: dto.email,
+      password: await hash(dto.password, salt),
+      name: dto.name,
+      surname: dto.surname
     })
 
     const user = await this.userRepository.save(newUser)
 
     return {
       user: this.returnUserFields(user),
-      accessToken: await this.createAccessToken(user.id)
+      accessToken: await this.createAccesToken(user.id)
     }
   }
 
-  async signIn(authUserDto: LoginUserDto): Promise<AuthResponse> {
-    const user = await this.validateUser(authUserDto)
-
-    return {
-      user: this.returnUserFields(user),
-      accessToken: await this.createAccessToken(user.id)
-    }
-  }
-
-  async validateUser(dto: LoginUserDto): Promise<IUser> {
+  async validateUser(dto: LoginDto) {
     const user = await this.userRepository.findOne({
       where: {
-        email: dto.email,
+        email: dto.email
       },
-      select: ['id', 'email', 'password']
+      select: ['id', "email", "password"]
     })
 
-    if (!user) throw new NotFoundException('Пользователь не найден')
+    if(!user) throw new NotFoundException('Пользователь с таким email не найден')
 
-    const isPasswordValid = await compare(dto.password, user.password)
-    if (!isPasswordValid)
-      throw new UnauthorizedException('Неверный логин или пароль')
+    const isValidPassword = await compare(dto.password, user.password)
+    if(!isValidPassword) throw new UnauthorizedException('Неверный логин или пароль')
 
     return user
+  }
+
+  async createAccesToken(userId: number) {
+    const data = {
+      id: userId
+    }
+
+    return await this.jwtService.signAsync(data, {
+      expiresIn: '31d'
+    })
   }
 
   returnUserFields(user: UserEntity) {
     return {
       id: user.id,
-      email: user.email,
+      email: user.email
     }
-  }
-
-  async createAccessToken(userId: number) {
-    const data = { id: userId }
-
-    return await this.jwtService.signAsync(data, {
-      secret: this.configService.get<string>('ACCESS_SECRET'),
-      expiresIn: '1d',
-    })
   }
 
 }
