@@ -1,8 +1,10 @@
-import { FC, PropsWithChildren } from "react";
 import SignIn from "../../app/components/pages/signin/SignIn";
+import { PrivateNextPage } from "../../app/providers/private-route.interface";
 
-const SignInPage: FC<PropsWithChildren> = ({ children }) => {
-  return <SignIn />
+const SignInPage: PrivateNextPage = ({}) => {
+  return <SignIn />;
 };
+
+SignInPage.isPrivatePage = false;
 
 export default SignIn;

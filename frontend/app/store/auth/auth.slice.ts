@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { logout, signIn, signUp } from "./auth.actions";
+import { logout, refresh, signIn, signUp } from "./auth.actions";
 
 import { IAuthInitialState } from "./auth.interface";
 
@@ -45,7 +45,30 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.user = null;
         state.accessToken = "";
-      });
-
+      })
+      // .addMatcher(api.endpoints.refresh.matchFulfilled, (state: IAuthInitialState, { payload }) => {
+      //     state.isLoading = false;
+      //     state.user = payload.user;
+      //     state.accessToken = payload.accessToken;
+      //   }
+      // )
+      // .addMatcher(api.endpoints.refresh.matchRejected, (state: IAuthInitialState, { payload }) => {
+      //     state.isLoading = false;
+      //     state.user = null;
+      //     state.accessToken = "";
+      //   }
+      // );
+      .addCase(refresh.fulfilled, (state: IAuthInitialState, { payload }) => {
+          state.isLoading = false;
+          state.user = payload.user;
+          state.accessToken = payload.accessToken;
+        }
+      )
+      .addCase(refresh.rejected, (state: IAuthInitialState, { payload }) => {
+          state.isLoading = false;
+          state.user = null;
+          state.accessToken = "";
+        }
+      );
   }
 });

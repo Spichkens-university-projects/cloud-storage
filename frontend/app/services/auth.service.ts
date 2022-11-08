@@ -3,18 +3,24 @@ import { IAuthLoginFields, IAuthRegisterFields, IAuthResponse } from "../types/a
 
 export const AuthService = {
 
-  async login({email, password}: IAuthLoginFields) {
-    const response = await axiosClassic.post<IAuthResponse>('/auth/signin', {
+  async login({ email, password }: IAuthLoginFields) {
+    const response = await axiosClassic.post<IAuthResponse>("/auth/login", {
       email, password
-    })
-    return response.data
+    });
+    return response.data;
   },
 
-  async register({email, password, name, surname}: IAuthRegisterFields) {
-    const response = await axiosClassic.post<IAuthResponse>('/auth/signup', {
+  async register({ email, password, name, surname }: IAuthRegisterFields) {
+    const response = await axiosClassic.post<IAuthResponse>("/auth/register", {
       email, password, name, surname
-    })
-    return response.data
+    });
+    return response.data;
+  },
+
+  async refresh() {
+    const response = await axiosClassic.get<IAuthResponse>("/auth/refresh", { withCredentials: true });
+    return response.data;
   }
 
-}
+
+};

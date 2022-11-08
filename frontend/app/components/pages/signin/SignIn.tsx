@@ -1,14 +1,14 @@
+import Link from "next/link";
 import { useRouter } from "next/router";
-import {  FC, PropsWithChildren, useEffect } from "react";
+import { FC, PropsWithChildren } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useActions } from "../../../hooks/useActions";
 import { IAuthLoginFields } from "../../../types/auth/auth.interface";
 import Headers from "../../Headers";
-import Input from "../../ui/input/Input";
-import { SubmitHandler, useForm } from "react-hook-form";
 import Button from "../../ui/button/Button";
+import Input from "../../ui/input/Input";
 
 import styles from "./SignIn.module.scss";
-import Link from "next/link";
 
 interface Props {
 }
@@ -19,18 +19,18 @@ const SignIn: FC<PropsWithChildren<Props>> = ({ children }) => {
     password: string
   }>();
 
+
   const { signIn } = useActions();
   const { replace } = useRouter();
 
-  const onSubmit: SubmitHandler<IAuthLoginFields> = (data, event) => {
+  const onSubmit: SubmitHandler<IAuthLoginFields> = async (data, event) => {
     signIn(data);
-    replace('/')
+    replace("/");
   };
-
 
   return (
     <div className={styles.wrapper}>
-      <Headers title={'Аутентификация'}/>
+      <Headers title={"Аутентификация"} />
       <div className={styles.container}>
         <h1 className="text-3xl text-center mb-5">Вход в хранилище</h1>
         <form
