@@ -1,9 +1,8 @@
-import { Controller, Get, Param  } from "@nestjs/common";
+import { Controller, Get, Param } from "@nestjs/common";
 import { OnlyAuthed } from "../auth/decorators/auth.decorator";
 import { IUser } from "./types/user.interface";
-import { CurrentUser, } from "./user.decorator";
+import { CurrentUser } from "./user.decorator";
 import { UserService } from "./user.service";
-
 
 @Controller("user")
 export class UserController {
@@ -18,7 +17,7 @@ export class UserController {
   @Get("profile")
   @OnlyAuthed()
   async getCurrentUser(@CurrentUser("id") id: number): Promise<IUser> {
-    return await this.usersService.getById(id)
+    return await this.usersService.getById(id);
   }
 
   @Get(":id")
