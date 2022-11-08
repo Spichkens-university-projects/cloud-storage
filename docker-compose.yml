@@ -1,0 +1,63 @@
+version: '3'
+
+services:
+  database:
+    image: postgres
+    restart: always
+    container_name: postgres
+    environment:
+      POSTGRES_DB: cloud-storage
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  adminer:
+    image: adminer
+    restart: unless-stopped
+    container_name: adminer
+    ports:
+      - "8080:8080"
+    links:
+      - database
+
+  nest_app:
+    restart:
+      always
+    container_name: nest_app
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    links:
+      - database
+    environment:
+      DB_HOST: database
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: root
+      DB_NAME: cloud-storage
+      JWT_SECRET: jwt
+      REFRESH_SECRET: refresh
+      ACCESS_SECRET: access
+      SESSION_SECRET: secret
+
+  next_app:
+    container_name: next_app
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    links:
+      - database
+      - nest_app
+    environment:
+      API_HOST: nest_app
+      API_PORT: 3001
+
+volumes:
+  pg_data:

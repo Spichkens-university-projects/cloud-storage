@@ -1,13 +1,13 @@
 FROM node:18
 
-WORKDIR ./app/server
+WORKDIR ./app/client
 
 COPY package*.json ./
-RUN npm i -g @nestjs/cli
+RUN npm i next
 RUN npm install
 
 COPY . .
 
 RUN npm run build
 
-CMD [ "node", "dist/main" ]
+CMD [ "npm", "start" ]

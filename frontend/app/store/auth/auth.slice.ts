@@ -46,18 +46,6 @@ export const authSlice = createSlice({
         state.user = null;
         state.accessToken = "";
       })
-      // .addMatcher(api.endpoints.refresh.matchFulfilled, (state: IAuthInitialState, { payload }) => {
-      //     state.isLoading = false;
-      //     state.user = payload.user;
-      //     state.accessToken = payload.accessToken;
-      //   }
-      // )
-      // .addMatcher(api.endpoints.refresh.matchRejected, (state: IAuthInitialState, { payload }) => {
-      //     state.isLoading = false;
-      //     state.user = null;
-      //     state.accessToken = "";
-      //   }
-      // );
       .addCase(refresh.fulfilled, (state: IAuthInitialState, { payload }) => {
           state.isLoading = false;
           state.user = payload.user;
@@ -69,6 +57,9 @@ export const authSlice = createSlice({
           state.user = null;
           state.accessToken = "";
         }
-      );
+      )
+      .addCase(refresh.pending, state => {
+        state.isLoading = true;
+      });
   }
 });
