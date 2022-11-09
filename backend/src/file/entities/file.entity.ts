@@ -1,29 +1,31 @@
-import { Column, Entity, ManyToOne, OneToOne } from 'typeorm'
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm'
 import { UserEntity } from '../../user/entities/user.entity'
 import { BaseEntity } from '../../utils/base.entity'
 
 export enum FileTypes {
-	dir = 'dir',
-	file = 'file',
+  dir = 'dir',
+  file = 'file',
 }
 
 @Entity('file')
 export class FileEntity extends BaseEntity {
-	@Column({ name: 'file_name', nullable: false })
-	fileName: string
+  @Column({ name: 'file_name', nullable: false })
+  fileName: string
 
-	@Column({ name: 'file_path', default: '' })
-	filePath: string
+  @Column({ name: 'file_path', default: '' })
+  filePath: string
 
-	@Column({ name: 'file_size', default: 0 })
-	fileSize: number
+  @Column({ name: 'file_size', default: 0 })
+  fileSize: number
 
-	@OneToOne(() => FileEntity, { nullable: true })
-	parent: FileEntity
+  @Column({ name: 'file_type', default: FileTypes.dir })
+  fileType: string
 
-	@ManyToOne(() => UserEntity, user => user.files)
-	user: UserEntity
+  @OneToOne(() => FileEntity)
+  @JoinColumn({ name: 'parent_id' })
+  parent: FileEntity
 
-	@OneToOne(() => FileEntity)
-	children: FileEntity[]
+  @ManyToOne(() => UserEntity, user => user.files)
+  @JoinColumn({ name: 'user_id' })
+  user: UserEntity
 }

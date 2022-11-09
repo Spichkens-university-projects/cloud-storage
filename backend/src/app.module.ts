@@ -9,19 +9,19 @@ import { FileModule } from './file/file.module'
 import { UserModule } from './user/user.module'
 
 @Module({
-	imports: [
-		MulterModule.register({ dest: STATIC_FILE_PATH }),
-		ConfigModule.forRoot(),
-		TypeOrmModule.forRootAsync({
-			imports: [ConfigModule],
-			inject: [ConfigService],
-			useFactory: getTypeOrmConfig,
-		}),
-		UserModule,
-		AuthModule,
-		FileModule,
-	],
-	controllers: [],
-	providers: [],
+  imports: [
+    MulterModule.register({ dest: STATIC_FILE_PATH }),
+    ConfigModule.forRoot(),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: getTypeOrmConfig,
+    }),
+    UserModule,
+    AuthModule,
+    FileModule,
+  ],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
