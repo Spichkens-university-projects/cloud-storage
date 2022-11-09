@@ -41,7 +41,6 @@ export const refresh = createAsyncThunk<IAuthResponse, null>(
     try {
       const response = await AuthService.refresh();
       setCookie("refresh", response.refreshToken, { maxAge: 31536000 });
-      toast.success("Вход выполнен успешно");
       return response;
     } catch (e: any) {
       toastError(e);

@@ -6,12 +6,14 @@ import AuthProvider from "../app/providers/AuthProvider";
 import { TypeComponentAuthFields } from "../app/providers/private-route.interface";
 import { store } from "../app/store/store";
 import "../app/styles/globals.css";
+import { ChakraProvider } from "@chakra-ui/react";
+
 
 type TypedAppProps = AppProps & TypeComponentAuthFields
 
 export default function App({ Component, pageProps }: TypedAppProps) {
   return (
-    <>
+    <ChakraProvider>
       <NextProgressBar color={"#71aaeb"} startPosition={0.3} stopDelayMs={200} height={3} />
       <Provider store={store}>
         <Toaster position="top-left" reverseOrder={true} toastOptions={{ duration: 2000 }} />
@@ -19,6 +21,6 @@ export default function App({ Component, pageProps }: TypedAppProps) {
           <Component {...pageProps} />
         </AuthProvider>
       </Provider>
-    </>
+    </ChakraProvider>
   );
 }

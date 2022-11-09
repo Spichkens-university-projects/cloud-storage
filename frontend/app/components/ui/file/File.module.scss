@@ -1,0 +1,11 @@
+.wrapper {
+  @apply
+  flex flex-col
+  w-fit text-center
+  rounded-xl overflow-hidden
+  bg-white hover:bg-gray-100
+  cursor-pointer
+  p-1
+}
+
+
