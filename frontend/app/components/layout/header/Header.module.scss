@@ -3,7 +3,7 @@
 }
 
 .content {
-	@apply container flex justify-between items-center;
+	@apply container flex justify-between items-center px-2;
 }
 
 .logo {
@@ -12,4 +12,12 @@
 
 .signButton {
 	@apply border-2 border-icon rounded-md px-1.5 text-xl;
+}
+
+.username {
+	@apply text-black font-bold text-lg
+}
+
+.logoutButton {
+	@apply bg-red-600 text-white font-bold px-2 py-1 rounded shadow-2xl
 }

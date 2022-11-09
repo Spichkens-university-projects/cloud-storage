@@ -1,9 +1,12 @@
+import {fileSlice} from "@/store/file/file.slice";
+import {ROOT_PATH} from "@/types/file/file.interface";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { FC, PropsWithChildren } from "react";
-import { useActions } from "../../../hooks/useActions";
-import { useAuth } from "../../../hooks/useAuth";
-import { api } from "../../../store/api/api";
+import {useRouter} from "next/router";
+import {FC, PropsWithChildren} from "react";
+import {useDispatch} from "react-redux";
+import {useActions} from "../../../hooks/useActions";
+import {useAuth} from "../../../hooks/useAuth";
+import {api} from "../../../store/api/api";
 import styles from "./Header.module.scss";
 
 
@@ -22,19 +25,28 @@ const Header: FC<PropsWithChildren> = ({}) => {
     logout();
   };
 
+  const dispatch = useDispatch()
+
+  const goToRootDir = () => {
+    dispatch(fileSlice.actions.setPath({
+      currentPath: `${ROOT_PATH}`,
+      dirId: undefined
+    }))
+  }
+
   if (isLoading) return null;
 
   return (
     <header className={styles.header}>
       <div className={styles.content}>
-        <Link href={"/"} className={styles.logo}>
+        <Link href={"/"} className={styles.logo} onClick={goToRootDir}>
           E-Storage
         </Link>
         {isUserLogedIn
           ?
-          <div className={"flex flex-row gap-5"}>
-            <h3>{data?.name} {data?.surname}</h3>
-            <button onClick={onLogout}>Выйти</button>
+          <div className={"flex flex-row items-center gap-5"}>
+            <h1 className={styles.username}>{data?.name} {data?.surname}</h1>
+            <button onClick={onLogout} className={styles.logoutButton}>Выйти</button>
           </div>
           :
           isUserOnAuthPage

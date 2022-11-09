@@ -1,5 +1,5 @@
-import { FileTypes } from '@/types/file/file.types'
-import { IUser } from '@/types/user/user.interface'
+import {FileTypes} from '@/types/file/file.types'
+import {IUser} from '@/types/user/user.interface'
 
 export interface IFileCreate {
 	fileName: string,
@@ -17,3 +17,11 @@ export interface IFile {
 	createdAt: Date
 	updatedAt: Date;
 }
+
+export interface ICurrentPath {
+	currentPath: string,
+	dirId: number | undefined
+	prevId: number | undefined
+}
+
+export const ROOT_PATH = '\\'

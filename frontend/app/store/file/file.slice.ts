@@ -1,13 +1,11 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import {ICurrentPath, ROOT_PATH} from '@/types/file/file.interface'
+import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 
-export interface ICurrentPath {
-	currentPath: string,
-	dirId: number | undefined
-}
 
 const initialState: ICurrentPath = {
-	currentPath: '',
-	dirId: undefined
+	currentPath: ROOT_PATH,
+	dirId: undefined,
+	prevId: undefined
 }
 
 export const fileSlice = createSlice({
@@ -16,6 +14,7 @@ export const fileSlice = createSlice({
 	reducers: {
 		setPath: (state, { payload }: PayloadAction<ICurrentPath>) => {
 			state.currentPath = payload.currentPath
+			state.prevId = state.dirId
 			state.dirId = payload.dirId
 		}
 	}

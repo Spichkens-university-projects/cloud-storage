@@ -41,7 +41,7 @@ export const api = createApi({
 			providesTags: () => [{ type: 'Files' }]
 		}),
 		getFilesFromDirectory: build.query<IFile[], number | undefined>({
-			query: (parentId: number) => `/file/${parentId}`,
+			query: (parentId: number) => `/file/root/${parentId}`,
 			providesTags: () => [{ type: 'Files' }]
 		})
 	})
