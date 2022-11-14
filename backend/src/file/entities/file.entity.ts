@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm'
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm'
 import { UserEntity } from '../../user/entities/user.entity'
 import { BaseEntity } from '../../utils/base.entity'
 
@@ -21,9 +21,12 @@ export class FileEntity extends BaseEntity {
   @Column({ name: 'file_type', default: FileTypes.dir })
   fileType: string
 
-  @OneToOne(() => FileEntity)
+  @Column({ nullable: true })
+  mimetype: string
+
+  @ManyToOne(() => FileEntity, { nullable: true })
   @JoinColumn({ name: 'parent_id' })
-  parent: FileEntity
+  parent?: FileEntity
 
   @ManyToOne(() => UserEntity, user => user.files)
   @JoinColumn({ name: 'user_id' })

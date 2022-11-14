@@ -4,7 +4,5 @@ export interface CreateDirectoryDto {
   fileName: string
   fileType: FileTypes
   fileSize: number
-  parentId: number
+  parentId?: number
 }
-
-export type UpdateDirectoryDto = Partial<CreateDirectoryDto>

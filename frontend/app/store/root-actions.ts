@@ -1,5 +1,5 @@
-import * as authActions from './auth/auth.actions'
+import * as authActions from './auth/auth.actions';
 
 export const RootActions = {
-  ...authActions,
-}
+    ...authActions,
+};

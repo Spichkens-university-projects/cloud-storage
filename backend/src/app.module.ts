@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
-import { MulterModule } from '@nestjs/platform-express'
+import { ServeStaticModule } from '@nestjs/serve-static'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { AuthModule } from './auth/auth.module'
 import { getTypeOrmConfig } from './config/typeorm.config'
@@ -10,7 +10,10 @@ import { UserModule } from './user/user.module'
 
 @Module({
   imports: [
-    MulterModule.register({ dest: STATIC_FILE_PATH }),
+    ServeStaticModule.forRoot({
+      rootPath: STATIC_FILE_PATH,
+      serveRoot: '/user_files',
+    }),
     ConfigModule.forRoot(),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],

@@ -5,8 +5,8 @@ import { FileController } from './file.controller'
 import { FileService } from './file.service'
 
 @Module({
-	imports: [TypeOrmModule.forFeature([FileEntity])],
-	controllers: [FileController],
-	providers: [FileService],
+  imports: [TypeOrmModule.forFeature([FileEntity])],
+  controllers: [FileController],
+  providers: [FileService],
 })
 export class FileModule {}

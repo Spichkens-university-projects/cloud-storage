@@ -1,4 +1,4 @@
-import { join } from 'path'
+import { path as root } from 'app-root-path'
+import * as path from 'path'
 
-export const PROJECT_ROOT_PATH = join(__dirname, '..', '..')
-export const STATIC_FILE_PATH = join(PROJECT_ROOT_PATH, 'user_files')
+export const STATIC_FILE_PATH = path.join(root, '/user_files')
